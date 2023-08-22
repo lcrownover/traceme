@@ -9,3 +9,7 @@ install:
 clean:
 	@rm -f bin/traceme /usr/local/bin/traceme
 
+deploy: 
+	@docker build --platform=linux/amd64 -t lcrowncrpublic.azurecr.io/traceme .
+	@docker push lcrowncrpublic.azurecr.io/traceme
+	@az container create --resource-group rg-prometheus-mock --name traceme --image lcrowncrpublic.azurecr.io/traceme --ports 3333 --dns-name-label traceme
